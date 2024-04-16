@@ -1,7 +1,7 @@
 # webtech-project-portal
 
 Member:
-Duc Phan
+Duc Phan,
 Béla von Wangenheim
 
 Describtion:
