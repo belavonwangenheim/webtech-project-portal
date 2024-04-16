@@ -4,6 +4,6 @@ Member:
 Duc Phan,
 Béla von Wangenheim
 
-Describtion:
+Description:
 Loem Ipsum...
 
