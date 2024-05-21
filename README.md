@@ -51,7 +51,7 @@ Das Projekt wird auf der Basis eines vorgegebenen Tech-Stacks entwickelt und sol
 ### Kernfunktionen des Portals
 - **Anzeigen von Jobangeboten:** Nutzer können eine Liste verfügbarer Jobs einsehen.
 - **Erstellung von Jobangeboten:** Arbeitgeber können über ein einfaches Formular im Frontend neue Jobs einstellen, die im Backend gespeichert werden.
-- **Filter Funktion der Angezeigten Liste
+- **Filter:** Funktion der Angezeigten Liste
 - **Tests:** Es werden grundlegende Tests für das Frontend und das Backend implementiert, um die Funktionalität sicherzustellen.
 - **CI/CD-Pipeline:** Einrichtung einer Pipeline für automatisierte Tests und Deployment-Prozesse.
 - **Dokumentation:** Eine klare Anleitung in Form einer ReadMe-Datei für die Benutzung der App.
