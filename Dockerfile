@@ -1,14 +1,8 @@
-# Verwenden des offiziellen OpenJDK-Images als Basis
-FROM openjdk:latest
+FROM gradle:jdk21-jammy AS build
+COPY --chown=gradle:gradle . /home/gradle/src
+WORKDIR /home/gradle/src
+RUN gradle build --no-daemon
 
-# Setzen des Arbeitsverzeichnisses innerhalb des Containers
-WORKDIR /app
-
-# Kopieren der Spring Boot JAR-Datei in das Arbeitsverzeichnis im Container
-COPY webtech-project-portal-0.0.1-SNAPSHOT.jar /app/webtech-project-portal-0.0.1-SNAPSHOT.jar
-
-# Exponieren des Ports 8080, den die Spring Boot-Anwendung verwendet
-EXPOSE 8080
-
-# Starten der Spring Boot-Anwendung beim Start des Containers
-CMD ["java", "-jar", "webtech-project-portal-0.0.1-SNAPSHOT.jar"]
+FROM eclipse-temurin:21-jdk-jammy
+COPY --from=build /home/gradle/src/build/libs/webtech-project-portal-0.0.1-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
