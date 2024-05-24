@@ -1,28 +1,29 @@
 package de.htw.berlinwebtech.webtechprojectportal.web;
 
-import de.htw.berlinwebtech.webtechprojectportal.web.JobOffer;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDate;
 
 @RestController
+@RequestMapping("/api/jobs")
 public class Controller {
 
     private List<JobOffer> jobOffers = new ArrayList<>();
 
-    public Controller() {
-        // Weitere Jobangebote hinzufügen...
-    }
-
-    @GetMapping("/")
-    public String showProject() {
-        return "TempJobOffer";
-    }
-
-    @GetMapping("/jobOffers")
-    public List<JobOffer> getJobOffers() {
+    @GetMapping
+    public List<JobOffer> getAllJobs() {
         return jobOffers;
+    }
+
+    @PostMapping
+    public JobOffer createJob(@RequestBody JobOffer jobOffer) {
+        jobOffers.add(jobOffer);
+        return jobOffer;
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteJob(@PathVariable Long id) {
+        jobOffers.removeIf(job -> job.getId().equals(id));
     }
 }
