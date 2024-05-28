@@ -30,7 +30,7 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	runtimeOnly 'com.h2database:h2:2.2.224'
+	implementation 'org.postgresql:postgresql:42.2.19'
 }
 
 tasks.named('test') {
