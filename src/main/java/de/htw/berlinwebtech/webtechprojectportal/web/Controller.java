@@ -2,6 +2,7 @@ package de.htw.berlinwebtech.webtechprojectportal.web;
 
 import de.htw.berlinwebtech.webtechprojectportal.service.JobOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,13 @@ public class Controller {
     @GetMapping
     public List<JobOffer> getAllJobs() {
         return jobOfferService.getAllJobs();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<JobOffer> getJobById(@PathVariable Long id) {
+        return jobOfferService.getJobById(id)
+                .map(jobOffer -> ResponseEntity.ok().body(jobOffer))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
