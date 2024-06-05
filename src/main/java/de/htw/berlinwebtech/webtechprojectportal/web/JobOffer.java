@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -18,4 +19,10 @@ public class JobOffer {
     private String name;
     private String description;
     private String email;
+    private String location;
+    private String salary;
+    private String jobType; // Vollzeit, Teilzeit, etc.
+    private String requirements;
+    private LocalDate startDate;
+    private LocalDate endDate;
 }
