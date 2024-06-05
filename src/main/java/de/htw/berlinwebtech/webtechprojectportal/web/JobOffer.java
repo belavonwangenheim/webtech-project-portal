@@ -18,6 +18,7 @@ public class JobOffer {
     private Long id;
     private String name;
     private String description;
+    private String address;
     private String email;
     private String location;
     private String salary;
