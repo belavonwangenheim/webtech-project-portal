@@ -40,4 +40,11 @@ public class Controller {
     public void deleteJob(@PathVariable Long id) {
         jobOfferService.deleteJob(id);
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<JobOffer> updateJob(@PathVariable Long id, @RequestBody JobOffer jobOffer) {
+        return jobOfferService.updateJob(id, jobOffer)
+                .map(updatedJob -> ResponseEntity.ok().body(updatedJob))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }
