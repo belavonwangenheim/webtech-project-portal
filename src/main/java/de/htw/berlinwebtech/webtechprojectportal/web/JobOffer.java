@@ -18,11 +18,10 @@ public class JobOffer {
     private Long id;
     private String name;
     private String description;
-    private String address;
     private String email;
+    private String phoneNumber;
     private String location;
     private String salary;
-    private String jobType; // Vollzeit, Teilzeit, etc.
     private String requirements;
     private LocalDate startDate;
     private LocalDate endDate;
