@@ -24,4 +24,9 @@ public class AppUser {
     private String phone;
     private LocalDate birthDate;
     private String address;
+
+    // Neuer Konstruktor, der nur die ID setzt
+    public AppUser(Long id) {
+        this.id = id;
+    }
 }

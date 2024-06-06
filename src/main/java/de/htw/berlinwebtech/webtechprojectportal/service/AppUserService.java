@@ -11,8 +11,12 @@ import java.util.Optional;
 @Service
 public class AppUserService {
 
+    private final AppUserRepository appUserRepository;
+
     @Autowired
-    private AppUserRepository appUserRepository;
+    public AppUserService(AppUserRepository appUserRepository) {
+        this.appUserRepository = appUserRepository;
+    }
 
     public List<AppUser> getAllUsers() {
         return appUserRepository.findAll();
@@ -41,7 +45,6 @@ public class AppUserService {
     }
 
     public void deleteUser(Long id) {
-        AppUser user = appUserRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found with id " + id));
-        appUserRepository.delete(user);
+        appUserRepository.deleteById(id);
     }
 }
