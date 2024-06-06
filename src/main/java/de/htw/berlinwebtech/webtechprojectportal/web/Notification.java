@@ -1,11 +1,8 @@
 package de.htw.berlinwebtech.webtechprojectportal.web;
 
+import jakarta.persistence.*;
 import lombok.*;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,5 +20,6 @@ public class Notification {
     private LocalDateTime timestamp;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private AppUser user;
 }
