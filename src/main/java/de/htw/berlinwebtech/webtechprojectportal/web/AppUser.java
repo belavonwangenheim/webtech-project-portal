@@ -1,5 +1,6 @@
 package de.htw.berlinwebtech.webtechprojectportal.web;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -30,5 +31,6 @@ public class AppUser {
 
     // Beziehung zu Notification, ein Benutzer kann viele Benachrichtigungen haben
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore // Ignoriert die Sammlung während der Serialisierung
     private List<Notification> notifications;
 }
