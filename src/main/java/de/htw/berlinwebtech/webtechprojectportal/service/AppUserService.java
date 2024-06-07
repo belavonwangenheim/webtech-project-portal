@@ -47,4 +47,8 @@ public class AppUserService {
     public void deleteUser(Long id) {
         appUserRepository.deleteById(id);
     }
+
+    public Optional<AppUser> authenticate(String username, String password) {
+        return appUserRepository.findByUsernameAndPassword(username, password);
+    }
 }

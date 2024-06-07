@@ -9,6 +9,7 @@ package de.htw.berlinwebtech.webtechprojectportal.web.controller;
 import de.htw.berlinwebtech.webtechprojectportal.service.AppUserService;
 import de.htw.berlinwebtech.webtechprojectportal.web.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,6 +61,22 @@ public class AppUserController {
     @PostMapping
     public AppUser createUser(@RequestBody AppUser user) {
         return appUserService.createUser(user);
+    }
+
+    /*
+     * POST /api/users/login
+     * Diese Methode überprüft die Anmeldeinformationen des Benutzers.
+     * Testen: https://webtech-project-backend.onrender.com/api/users/login
+     *         http://localhost:8080/api/users/login
+     */
+    @PostMapping("/login")
+    public ResponseEntity<AppUser> loginUser(@RequestBody AppUser user) {
+        Optional<AppUser> userOpt = appUserService.authenticate(user.getUsername(), user.getPassword());
+        if (userOpt.isPresent()) {
+            return ResponseEntity.ok(userOpt.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
     /*
