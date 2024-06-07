@@ -71,11 +71,16 @@ public class AppUserController {
      */
     @PostMapping("/login")
     public ResponseEntity<AppUser> loginUser(@RequestBody AppUser user) {
-        Optional<AppUser> userOpt = appUserService.authenticate(user.getUsername(), user.getPassword());
-        if (userOpt.isPresent()) {
-            return ResponseEntity.ok(userOpt.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        try {
+            Optional<AppUser> userOpt = appUserService.authenticate(user.getUsername(), user.getPassword());
+            if (userOpt.isPresent()) {
+                return ResponseEntity.ok(userOpt.get());
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 

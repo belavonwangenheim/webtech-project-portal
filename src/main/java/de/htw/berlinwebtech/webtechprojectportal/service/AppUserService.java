@@ -31,7 +31,12 @@ public class AppUserService {
     }
 
     public Optional<AppUser> authenticate(String username, String password) {
-        return appUserRepository.findByUsernameAndPassword(username, password);
+        try {
+            return appUserRepository.findByUsernameAndPassword(username, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
     }
 
     public Optional<AppUser> updateUser(Long id, AppUser userDetails) {
@@ -53,3 +58,4 @@ public class AppUserService {
         appUserRepository.deleteById(id);
     }
 }
+
