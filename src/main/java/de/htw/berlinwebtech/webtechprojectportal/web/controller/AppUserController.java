@@ -1,15 +1,8 @@
-/**
- Diese Klasse stellt REST-Endpunkte für App-User bereit.
- Endpunkte können über die folgenden URLs getestet werden:
- Render URL: https://webtech-project-backend.onrender.com/api
- Lokale URL: http://localhost:8080/api
- */
 package de.htw.berlinwebtech.webtechprojectportal.web.controller;
 
 import de.htw.berlinwebtech.webtechprojectportal.service.AppUserService;
 import de.htw.berlinwebtech.webtechprojectportal.web.AppUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,102 +14,62 @@ import java.util.Optional;
 @RequestMapping("/api/users")
 public class AppUserController {
 
-    private final AppUserService appUserService;
-
     @Autowired
-    public AppUserController(AppUserService appUserService) {
-        this.appUserService = appUserService;
-    }
+    private AppUserService appUserService;
 
-    /*
-     * GET /api/users
-     * Diese Methode gibt alle Benutzer zurück.
-     * Testen: https://webtech-project-backend.onrender.com/api/users
-     *         http://localhost:8080/api/users
-     */
-    @GetMapping
-    public List<AppUser> getAllUsers() {
-        return appUserService.getAllUsers();
-    }
-
-    /*
-     * GET /api/users/{id}
-     * Diese Methode gibt einen Benutzer anhand der ID zurück.
-     * Testen: https://webtech-project-backend.onrender.com/api/users/{id}
-     *         http://localhost:8080/api/users/{id}
-     */
-    @GetMapping("/{id}")
-    public ResponseEntity<AppUser> getUserById(@PathVariable Long id) {
-        return appUserService.getUserById(id)
-                .map(user -> ResponseEntity.ok().body(user))
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    /*
-     * POST /api/users
-     * Diese Methode erstellt einen neuen Benutzer.
-     * Testen: https://webtech-project-backend.onrender.com/api/users
-     *         http://localhost:8080/api/users
-     */
-    @PostMapping
-    public AppUser createUser(@RequestBody AppUser user) {
-        return appUserService.createUser(user);
-    }
-
-    /*
-     * POST /api/users/login
-     * Diese Methode überprüft die Anmeldeinformationen des Benutzers.
-     * Testen: https://webtech-project-backend.onrender.com/api/users/login
-     *         http://localhost:8080/api/users/login
-     */
-    @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody AppUser user) {
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@RequestBody AppUser user) {
         try {
-            Optional<AppUser> userOpt = appUserService.authenticate(user.getUsername(), user.getPassword());
-            if (userOpt.isPresent()) {
-                return ResponseEntity.ok(userOpt.get());
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Ungültige Anmeldeinformationen");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ein interner Serverfehler ist aufgetreten");
+            AppUser registeredUser = appUserService.registerUser(user);
+            return ResponseEntity.ok("User registered successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    /*
-     * PUT /api/users/{id}
-     * Diese Methode aktualisiert einen bestehenden Benutzer vollständig.
-     * Testen: https://webtech-project-backend.onrender.com/api/users/{id}
-     *         http://localhost:8080/api/users/{id}
-     */
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody AppUser user) {
+        try {
+            AppUser loggedInUser = appUserService.loginUser(user);
+            return ResponseEntity.ok(loggedInUser);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AppUser>> getAllUsers() {
+        List<AppUser> users = appUserService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AppUser> getUserById(@PathVariable Long id) {
+        Optional<AppUser> user = appUserService.getUserById(id);
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Optional<AppUser>> updateUser(@PathVariable Long id, @RequestBody AppUser userDetails) {
-        return ResponseEntity.ok(appUserService.updateUser(id, userDetails));
+    public ResponseEntity<AppUser> updateUser(@PathVariable Long id, @RequestBody AppUser userDetails) {
+        try {
+            AppUser updatedUser = appUserService.updateUser(id, userDetails);
+            return ResponseEntity.ok(updatedUser);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
-    /*
-     * PATCH /api/users/{id}
-     * Diese Methode aktualisiert einen bestehenden Benutzer teilweise.
-     * Testen: https://webtech-project-backend.onrender.com/api/users/{id}
-     *         http://localhost:8080/api/users/{id}
-     */
-    @PatchMapping("/{id}")
-    public ResponseEntity<AppUser> patchUser(@PathVariable Long id, @RequestBody AppUser userDetails) {
-        return appUserService.updateUser(id, userDetails)
-                .map(updatedUser -> ResponseEntity.ok().body(updatedUser))
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    /*
-     * DELETE /api/users/{id}
-     * Diese Methode löscht einen Benutzer anhand der ID.
-     * Testen: https://webtech-project-backend.onrender.com/api/users/{id}
-     *         http://localhost:8080/api/users/{id}
-     */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        appUserService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        try {
+            appUserService.deleteUser(id);
+            return ResponseEntity.ok("User deleted successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

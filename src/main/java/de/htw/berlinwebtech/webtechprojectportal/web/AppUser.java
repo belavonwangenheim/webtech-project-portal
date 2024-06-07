@@ -24,13 +24,7 @@ public class AppUser {
     private LocalDate birthDate;
     private String address;
 
-    // Neuer Konstruktor, der nur die ID setzt
-    public AppUser(Long id) {
-        this.id = id;
-    }
-
-    // Beziehung zu Notification, ein Benutzer kann viele Benachrichtigungen haben
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore // Ignoriert die Sammlung während der Serialisierung
+    @JsonIgnore
     private List<Notification> notifications;
 }
