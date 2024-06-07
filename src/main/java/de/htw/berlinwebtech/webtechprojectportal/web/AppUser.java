@@ -1,11 +1,9 @@
 package de.htw.berlinwebtech.webtechprojectportal.web;
 
 import lombok.*;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,4 +27,8 @@ public class AppUser {
     public AppUser(Long id) {
         this.id = id;
     }
+
+    // Beziehung zu Notification, ein Benutzer kann viele Benachrichtigungen haben
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Notification> notifications;
 }

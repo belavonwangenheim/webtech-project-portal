@@ -25,4 +25,5 @@ public class JobOffer {
     private String requirements;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Long userId; // userId-Felds
 }
