@@ -30,25 +30,26 @@ public class AppUserService {
         return appUserRepository.save(user);
     }
 
+    public Optional<AppUser> authenticate(String username, String password) {
+        return appUserRepository.findByUsernameAndPassword(username, password);
+    }
+
     public Optional<AppUser> updateUser(Long id, AppUser userDetails) {
-        return appUserRepository.findById(id).map(user -> {
-            user.setUsername(userDetails.getUsername());
-            user.setPassword(userDetails.getPassword());
-            user.setFirstName(userDetails.getFirstName());
-            user.setLastName(userDetails.getLastName());
-            user.setEmail(userDetails.getEmail());
-            user.setPhone(userDetails.getPhone());
-            user.setBirthDate(userDetails.getBirthDate());
-            user.setAddress(userDetails.getAddress());
-            return appUserRepository.save(user);
-        });
+        return appUserRepository.findById(id)
+                .map(user -> {
+                    user.setUsername(userDetails.getUsername());
+                    user.setPassword(userDetails.getPassword());
+                    user.setFirstName(userDetails.getFirstName());
+                    user.setLastName(userDetails.getLastName());
+                    user.setEmail(userDetails.getEmail());
+                    user.setPhone(userDetails.getPhone());
+                    user.setBirthDate(userDetails.getBirthDate());
+                    user.setAddress(userDetails.getAddress());
+                    return appUserRepository.save(user);
+                });
     }
 
     public void deleteUser(Long id) {
         appUserRepository.deleteById(id);
-    }
-
-    public Optional<AppUser> authenticate(String username, String password) {
-        return appUserRepository.findByUsernameAndPassword(username, password);
     }
 }
