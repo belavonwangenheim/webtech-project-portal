@@ -70,17 +70,17 @@ public class AppUserController {
      *         http://localhost:8080/api/users/login
      */
     @PostMapping("/login")
-    public ResponseEntity<AppUser> loginUser(@RequestBody AppUser user) {
+    public ResponseEntity<?> loginUser(@RequestBody AppUser user) {
         try {
             Optional<AppUser> userOpt = appUserService.authenticate(user.getUsername(), user.getPassword());
             if (userOpt.isPresent()) {
                 return ResponseEntity.ok(userOpt.get());
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Ungültige Anmeldeinformationen");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ein interner Serverfehler ist aufgetreten");
         }
     }
 

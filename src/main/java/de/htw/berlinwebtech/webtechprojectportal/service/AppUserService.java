@@ -58,4 +58,3 @@ public class AppUserService {
         appUserRepository.deleteById(id);
     }
 }
-
