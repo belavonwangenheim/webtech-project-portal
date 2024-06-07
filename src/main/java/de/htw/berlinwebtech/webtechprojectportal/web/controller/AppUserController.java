@@ -1,3 +1,9 @@
+/**
+ Diese Klasse stellt REST-Endpunkte für App-User bereit.
+ Endpunkte können über die folgenden URLs getestet werden:
+ Render URL: https://webtech-project-backend.onrender.com/api
+ Lokale URL: http://localhost:8080/api
+ */
 package de.htw.berlinwebtech.webtechprojectportal.web.controller;
 
 import de.htw.berlinwebtech.webtechprojectportal.service.AppUserService;
@@ -21,11 +27,23 @@ public class AppUserController {
         this.appUserService = appUserService;
     }
 
+    /*
+     * GET /api/users
+     * Diese Methode gibt alle Benutzer zurück.
+     * Testen: https://webtech-project-backend.onrender.com/api/users
+     *         http://localhost:8080/api/users
+     */
     @GetMapping
     public List<AppUser> getAllUsers() {
         return appUserService.getAllUsers();
     }
 
+    /*
+     * GET /api/users/{id}
+     * Diese Methode gibt einen Benutzer anhand der ID zurück.
+     * Testen: https://webtech-project-backend.onrender.com/api/users/{id}
+     *         http://localhost:8080/api/users/{id}
+     */
     @GetMapping("/{id}")
     public ResponseEntity<AppUser> getUserById(@PathVariable Long id) {
         return appUserService.getUserById(id)
@@ -33,16 +51,34 @@ public class AppUserController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    /*
+     * POST /api/users
+     * Diese Methode erstellt einen neuen Benutzer.
+     * Testen: https://webtech-project-backend.onrender.com/api/users
+     *         http://localhost:8080/api/users
+     */
     @PostMapping
     public AppUser createUser(@RequestBody AppUser user) {
         return appUserService.createUser(user);
     }
 
+    /*
+     * PUT /api/users/{id}
+     * Diese Methode aktualisiert einen bestehenden Benutzer vollständig.
+     * Testen: https://webtech-project-backend.onrender.com/api/users/{id}
+     *         http://localhost:8080/api/users/{id}
+     */
     @PutMapping("/{id}")
     public ResponseEntity<Optional<AppUser>> updateUser(@PathVariable Long id, @RequestBody AppUser userDetails) {
         return ResponseEntity.ok(appUserService.updateUser(id, userDetails));
     }
 
+    /*
+     * PATCH /api/users/{id}
+     * Diese Methode aktualisiert einen bestehenden Benutzer teilweise.
+     * Testen: https://webtech-project-backend.onrender.com/api/users/{id}
+     *         http://localhost:8080/api/users/{id}
+     */
     @PatchMapping("/{id}")
     public ResponseEntity<AppUser> patchUser(@PathVariable Long id, @RequestBody AppUser userDetails) {
         return appUserService.updateUser(id, userDetails)
@@ -50,6 +86,12 @@ public class AppUserController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    /*
+     * DELETE /api/users/{id}
+     * Diese Methode löscht einen Benutzer anhand der ID.
+     * Testen: https://webtech-project-backend.onrender.com/api/users/{id}
+     *         http://localhost:8080/api/users/{id}
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         appUserService.deleteUser(id);
