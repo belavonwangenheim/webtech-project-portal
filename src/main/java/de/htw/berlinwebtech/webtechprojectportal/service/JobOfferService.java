@@ -12,12 +12,10 @@ import java.util.Optional;
 public class JobOfferService {
 
     private final JobOfferRepository jobOfferRepository;
-    private final NotificationService notificationService;
 
     @Autowired
-    public JobOfferService(JobOfferRepository jobOfferRepository, NotificationService notificationService) {
+    public JobOfferService(JobOfferRepository jobOfferRepository) {
         this.jobOfferRepository = jobOfferRepository;
-        this.notificationService = notificationService;
     }
 
     public List<JobOffer> getAllJobs() {
@@ -29,9 +27,7 @@ public class JobOfferService {
     }
 
     public JobOffer createJob(JobOffer jobOffer) {
-        JobOffer createdJob = jobOfferRepository.save(jobOffer);
-        notificationService.createNotification("Dein neuer Eintrag wurde erstellt.", jobOffer.getUserId());
-        return createdJob;
+        return jobOfferRepository.save(jobOffer);
     }
 
     public Optional<JobOffer> updateJob(Long id, JobOffer jobOffer) {
