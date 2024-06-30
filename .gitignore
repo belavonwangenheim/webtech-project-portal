@@ -39,3 +39,6 @@ out/
 ### H2 ###
 *.mv.db
 *.trace.db
+
+### Environment Variables ###
+.env
